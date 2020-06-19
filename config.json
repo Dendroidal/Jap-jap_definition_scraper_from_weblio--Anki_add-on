@@ -1,0 +1,10 @@
+{
+    "noteTypes": ["Japanese"],
+    "srcFields": ["Expression", "Kanji"],
+    "dicSrcFields": ["Words"],
+    "dstFields": ["Reading", "Reading"],
+    "defFields": ["Meaning"],
+    "bulkSrc": ["Source"],
+    "bulkPieces": ["Expression", "Pre", "Pos"],
+    "furiganaSuffix": " (furigana)"
+}
