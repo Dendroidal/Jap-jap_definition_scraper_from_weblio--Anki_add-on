@@ -61,31 +61,32 @@ def note_def_fetch(note, srcfld):
 ##########################################################################
 
 
-def onFocusLost(flag, note, fidx):
+def onFocusLost(flag, note, field_idx):
     src = None
     dst = None
-    # japanese model?
+    # is the note a japanese model?
     if not isJapaneseNoteType(note.model()['name']):
         return flag
-    # have src and dst fields?
+    # does the note have src and dst fields?
     fields = mw.col.models.fieldNames(note.model())
-    src = fields[fidx]
+    src = fields[field_idx]
     # Retro compatibility
     if src in dicSrcFields:
         srcIdx = dicSrcFields.index(src)
         dst = defFields[srcIdx]
     if not src or not dst:
         return flag
-    # dst field exists?
+    # does dst field exist?
     if dst not in note:
         return flag
-    # dst field already filled?
+    # is dst field already filled?
     if note[dst]:
         return flag
-    # checks it there is source text
+    # checks if there is source text
     if not mw.col.media.strip(note[src]):
         return flag
 
+    # fetches definition data and fills the dst field
     note[dst] = note_def_fetch(note, src)
 
     return True
@@ -95,25 +96,23 @@ def onFocusLost(flag, note, fidx):
 #################################
 
 class Regen():
-    def __init__(self, browser, fids):
+    def __init__(self, browser, note_ids):
         self.browser = browser
-        self.fids = fids
+        self.note_ids = note_ids
         self.completed = 0
         self.config = mw.addonManager.getConfig(__name__)
-        # self.force_update = config['force_update']
-        # self.update_separator = config['update_separator']
-        self.sema = threading.BoundedSemaphore(config['max_threads'])
+        self.semaphore = threading.BoundedSemaphore(config['max_threads'])
         self.values = {}
-        if len(self.fids) == 1:  # Single card selected
+        if len(self.note_ids) == 1:  # Single card selected
             self.row = self.browser.currentRow()
             self.browser.form.tableView.selectionModel().clear()
-        mw.progress.start(max=len(self.fids), immediate=True)
+        mw.progress.start(max=len(self.note_ids), immediate=True)
         mw.progress.update(
             label=label_progress_update,
             value=0)
 
     def prepare(self):
-        fs = [mw.col.getNote(id=fid) for fid in self.fids]
+        fs = [mw.col.getNote(id=note_id) for note_id in self.note_ids]
         i = 0
         for f in fs:
             try:
@@ -136,7 +135,7 @@ class Regen():
                 traceback.print_exc()
 
     def fetch_def(self, i):
-        with self.sema:
+        with self.semaphore:
             self.values[i]['definition'] = note_def_fetch(self.values[i]['f'],
                                                           expressionField)
 
@@ -146,7 +145,7 @@ class Regen():
             thread.join()
             self.update_def(i)
         mw.progress.finish()
-        if len(self.fids) == 1:
+        if len(self.note_ids) == 1:
             self.browser.form.tableView.selectRow(self.row)
 
     def update_def(self, i):
