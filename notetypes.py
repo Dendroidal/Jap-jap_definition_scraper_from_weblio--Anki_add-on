@@ -1,12 +1,9 @@
-"""
--*- coding: utf-8 -*-
-Author: RawToast
-License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-
-Configure settings for the note types and source fields for the Japanese
-Support plugin here
-
-"""
+# -*- coding: utf-8 -*-
+#
+# This module detects if a note has the appropriate type
+#
+# code lifted from the Japanedse Support add-on
+# found at https://ankiweb.net/shared/info/3918629684
 
 from aqt import mw
 config = mw.addonManager.getConfig(__name__)

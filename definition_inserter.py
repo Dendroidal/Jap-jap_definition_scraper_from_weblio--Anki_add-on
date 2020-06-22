@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 #
-# automatic definition generation from weblio.jp
+# this module adds the hooks that allow anki to fetch definitions
+# when creating/editing a single card
+# and bulk fetch then browsing multiple cards
+#
+# creating/editing code is based on the Japanedse Support add-on
+# found at https://ankiweb.net/shared/info/3918629684
+# bulk fetch code is based on the weblio scrapper add-on by renato
+# found at https://ankiweb.net/shared/info/2055037404
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -15,15 +22,13 @@ import traceback
 from .notetypes import isJapaneseNoteType
 from .definition_formatter import WordData
 
-
 from aqt import mw
 config = mw.addonManager.getConfig(__name__)
 
+# Variables (can be edited on Addons -> Config)
 dicSrcFields = config['dicSrcFields']
 defFields = config['defFields']
 
-
-# Variables (can be edited on Addons > Config)
 expressionField = config['dicSrcFields'][0]  # config['expressionField']
 definitionField = config['defFields'][0]  # config['definitionField']
 # keybinding = config['keybinding']
