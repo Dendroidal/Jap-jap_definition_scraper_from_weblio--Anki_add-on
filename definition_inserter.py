@@ -112,19 +112,19 @@ class Regen():
             value=0)
 
     def prepare(self):
-        fs = [mw.col.getNote(id=note_id) for note_id in self.note_ids]
+        notes = [mw.col.getNote(id=note_id) for note_id in self.note_ids]
         i = 0
-        for f in fs:
+        for note in notes:
             try:
-                if self.config['force_update'] == 'no' and f[definitionField]:
+                if self.config['force_update'] == 'no' and note[definitionField]:
                     self.completed += 1
                     mw.progress.update(
                         label=label_progress_update,
                         value=self.completed)
                 else:
                     self.values[i] = {}
-                    self.values[i]['f'] = f
-                    self.values[i]['word'] = f[expressionField]
+                    self.values[i]['note'] = note
+                    self.values[i]['word'] = note[expressionField]
                     thread = threading.Thread(target=self.fetch_def,
                                               args=(i,))
                     self.values[i]['thread'] = thread
@@ -136,11 +136,11 @@ class Regen():
 
     def fetch_def(self, i):
         with self.semaphore:
-            self.values[i]['definition'] = note_def_fetch(self.values[i]['f'],
+            self.values[i]['definition'] = note_def_fetch(self.values[i]['note'],
                                                           expressionField)
 
     def wait_threads(self):
-        for i, _ in self.values.items():
+        for i in self.values.keys():
             thread = self.values[i]['thread']
             thread.join()
             self.update_def(i)
@@ -149,19 +149,19 @@ class Regen():
             self.browser.form.tableView.selectRow(self.row)
 
     def update_def(self, i):
-        f = self.values[i]['f']
+        note = self.values[i]['note']
         try:
             if self.config['force_update'] == "append":
-                if f[definitionField]:
-                    f[definitionField] += self.config['update_separator']
-                f[definitionField] += self.values[i]['definition']
+                if note[definitionField]:
+                    note[definitionField] += self.config['update_separator']
+                note[definitionField] += self.values[i]['definition']
             else:
-                f[definitionField] = self.values[i]['definition']
+                note[definitionField] = self.values[i]['definition']
         except:
             print('definitions failed:')
             traceback.print_exc()
         try:
-            f.flush()
+            note.flush()
         except:
             raise Exception()
         self.completed += 1
