@@ -82,7 +82,7 @@ def onFocusLost(flag, note, fidx):
     # dst field already filled?
     if note[dst]:
         return flag
-    # checks for source text
+    # checks it there is source text
     if not mw.col.media.strip(note[src]):
         return flag
 
@@ -95,8 +95,8 @@ def onFocusLost(flag, note, fidx):
 #################################
 
 class Regen():
-    def __init__(self, ed, fids):
-        self.ed = ed
+    def __init__(self, browser, fids):
+        self.browser = browser
         self.fids = fids
         self.completed = 0
         self.config = mw.addonManager.getConfig(__name__)
@@ -105,8 +105,8 @@ class Regen():
         self.sema = threading.BoundedSemaphore(config['max_threads'])
         self.values = {}
         if len(self.fids) == 1:  # Single card selected
-            self.row = self.ed.currentRow()
-            self.ed.form.tableView.selectionModel().clear()
+            self.row = self.browser.currentRow()
+            self.browser.form.tableView.selectionModel().clear()
         mw.progress.start(max=len(self.fids), immediate=True)
         mw.progress.update(
             label=label_progress_update,
@@ -147,7 +147,7 @@ class Regen():
             self.update_def(i)
         mw.progress.finish()
         if len(self.fids) == 1:
-            self.ed.form.tableView.selectRow(self.row)
+            self.browser.form.tableView.selectRow(self.row)
 
     def update_def(self, i):
         f = self.values[i]['f']
@@ -171,29 +171,30 @@ class Regen():
             value=self.completed)
 
 
-def setupMenu(ed):
-    a = QAction(label_menu, ed)
-    a.triggered.connect(lambda _, e=ed: onRegenGlosses(e))
-    ed.form.menuEdit.addAction(a)
+def setupMenu(browser):
+    a = QAction(label_menu, browser)
+    a.triggered.connect(lambda: onRegenGlosses(browser))
+    browser.form.menuEdit.addAction(a)
 #    a.setShortcut(QKeySequence(keybinding))
 
 
-def addToContextMenu(view, menu):
+def onContextMenu(browser, menu):
     menu.addSeparator()
     a = menu.addAction(label_menu)
-    a.triggered.connect(lambda _, e=view: onRegenGlosses(e))
+    a.triggered.connect(lambda: onRegenGlosses(browser))
 #    a.setShortcut(QKeySequence(keybinding))
 
 
-def onRegenGlosses(ed):
-    regen = Regen(ed, ed.selectedNotes())
+def onRegenGlosses(browser):
+    regen = Regen(browser, browser.selectedNotes())
     regen.prepare()
     regen.wait_threads()
     mw.requireReset()
 
 
 # Init
-##########################################################################
+#############################################################
+
 addHook('editFocusLost', onFocusLost)
 addHook('browser.setupMenus', setupMenu)
-addHook('browser.onContextMenu', addToContextMenu)
+addHook('browser.onContextMenu', onContextMenu)
