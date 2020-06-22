@@ -6,5 +6,7 @@
     "defFields": ["Meaning"],
     "bulkSrc": ["Source"],
     "bulkPieces": ["Expression", "Pre", "Pos"],
-    "furiganaSuffix": " (furigana)"
+    "max_threads": 15,
+    "force_update": "append",
+    "update_separator": "<br>"
 }
