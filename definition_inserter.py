@@ -35,25 +35,25 @@ label_progress_update = 'Fetching definitions...'
 label_menu = 'Regenerate definitions'
 
 
-# Fetches definition for a note
+# Fetches definition for a single note
 ##########################################################################
 
 def note_def_fetch(note, srcfld):
     words = note[srcfld].split("、")
 
-    dic = {}
+    word_info = {}
 
     for word in words:
-        dic[word] = {}
-        dic[word]['data'] = WordData(word)
-        dic[word]['thread'] = \
-            threading.Thread(target=dic[word]['data'].fetch_def)
-        dic[word]['thread'].start()
+        word_info[word] = {}
+        word_info[word]['data'] = WordData(word)
+        word_info[word]['thread'] = \
+            threading.Thread(target=word_info[word]['data'].fetch_def)
+        word_info[word]['thread'].start()
 
     for word in words:
-        dic[word]['thread'].join()
+        word_info[word]['thread'].join()
 
-    defns = sum((dic[word]['data'].definitions for word in words), [])
+    defns = sum((word_info[word]['data'].definitions for word in words), [])
     return "".join(defn.display_def() for defn in defns)
 
 
@@ -95,7 +95,7 @@ def onFocusLost(flag, note, field_idx):
 # Bulk definition fetcher
 #################################
 
-class Regen():
+class BulkGenerator():
     def __init__(self, browser, note_ids):
         self.browser = browser
         self.note_ids = note_ids
@@ -172,7 +172,7 @@ class Regen():
 
 def setupMenu(browser):
     a = QAction(label_menu, browser)
-    a.triggered.connect(lambda: onRegenGlosses(browser))
+    a.triggered.connect(lambda: bulkFetcher(browser))
     browser.form.menuEdit.addAction(a)
 #    a.setShortcut(QKeySequence(keybinding))
 
@@ -180,14 +180,14 @@ def setupMenu(browser):
 def onContextMenu(browser, menu):
     menu.addSeparator()
     a = menu.addAction(label_menu)
-    a.triggered.connect(lambda: onRegenGlosses(browser))
+    a.triggered.connect(lambda: bulkFetcher(browser))
 #    a.setShortcut(QKeySequence(keybinding))
 
 
-def onRegenGlosses(browser):
-    regen = Regen(browser, browser.selectedNotes())
-    regen.prepare()
-    regen.wait_threads()
+def bulkFetcher(browser):
+    bulkgenerator = BulkGenerator(browser, browser.selectedNotes())
+    bulkgenerator.prepare()
+    bulkgenerator.wait_threads()
     mw.requireReset()
 
 
