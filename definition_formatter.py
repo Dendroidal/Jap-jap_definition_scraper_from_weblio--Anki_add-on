@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 #
-# automatic definition generation from weblio.jp
+# This module handles how the add-on
+# processes and formats the definitions obtained from weblio.jp
+#
+
 
 from bs4 import BeautifulSoup
 import urllib.request
