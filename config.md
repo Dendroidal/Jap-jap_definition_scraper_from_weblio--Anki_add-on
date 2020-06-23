@@ -1,13 +1,17 @@
-**WARNING**: Do not change these options if you're planning to share your deck
-with others, as reading generation will not work for other users if you change
-the defaults.
+These are the available options for this add-on:
 
-*noteTypes*: By default, the add-on considers a note type Japanese if it finds
-the text "japanese" in the note type name. Case is ignored.
+*noteTypes*: By default, definition generation while creating/editing cards will only work if the note type has the word "japanese" (case is ignored).
+This **does not** affect bulk definition generation while browsing.
 
-*srcFields*: Fields to generate the reading for.
+*dicSrcFields*: Input fields for the words whose definitions are needed. Different words should be separated by Japanese commas "、". If card contains multiple `dicSrcFields`, only first is used.
 
-*dstFields*: Fields where the reading should be placed.
+*defFields*: Output fields for the fetched definitions. If card contains multiple `defFields`, only first is used.
 
-*furiganaSuffix*: If a field called "abc" exists, and another field called "abc
-(furigana)" exists, they will be used as source and destination fields.
+*sub_definition_count*: For words with multiple sub-definitions, sets the maximum number of sub-definitions to display.
+
+*max_threads*: Number of words that will be fetched simultaneously from weblio.jp. For bulk fetching higher numbers may increase speed, but can also trigger a DDoS protection.
+
+*force_update*: Applies to **bulk definition generation only**. If equal to "no", notes with non-empty `defFields` are ignored. If equal to "overwrite", `defFields` is overwritten with fetched definitions. If equal to "append", fetched definitions are appended to existing ones.
+
+*update_separator*: When `force_update` is "append", this separator is placed between previous content and new content.
+ `<br>` inserts a newline.
