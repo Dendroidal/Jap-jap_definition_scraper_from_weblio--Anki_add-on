@@ -18,7 +18,7 @@ config = mw.addonManager.getConfig(__name__)
 dicSrcFields = config['dicSrcFields']
 defFields = config['defFields']
 
-sub_def_cnt = 3  # number of subdefinitions displayed
+sub_def_cnt = config['sub_definition_count']  # number of subdefinitions displayed
 
 
 # Builds and fetches the data for a word
