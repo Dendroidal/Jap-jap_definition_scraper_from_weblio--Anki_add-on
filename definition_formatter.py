@@ -15,8 +15,8 @@ import re
 from aqt import mw
 config = mw.addonManager.getConfig(__name__)
 
-dicSrcFields = config['dicSrcFields']
-defFields = config['defFields']
+#dicSrcFields = config['dicSrcFields']
+#defFields = config['defFields']
 
 sub_def_cnt = config['sub_definition_count']  # number of subdefinitions displayed
 
