@@ -4,27 +4,25 @@
 # processes and formats the definitions obtained from weblio.jp
 #
 
-
 from bs4 import BeautifulSoup
 import urllib.request
 import urllib.parse
 import urllib.error
 import re
 
+# sets the default number of subdefinitions displayed
+sub_def_cnt = 3
 
-from aqt import mw
-config = mw.addonManager.getConfig(__name__)
 
-#dicSrcFields = config['dicSrcFields']
-#defFields = config['defFields']
-
-sub_def_cnt = config['sub_definition_count']  # number of subdefinitions displayed
+# allows for sub_def_cnt to be changed when importing
+def change_sub_def_cnt(n):
+    global sub_def_cnt
+    sub_def_cnt = n
 
 
 # Builds and fetches the data for a word
 
 ######################################
-
 
 class WordData:
     def __init__(self, word):
