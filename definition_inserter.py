@@ -20,7 +20,7 @@ import traceback
 #####
 
 from .notetypes import isJapaneseNoteType
-from .definition_formatter import WordData
+from .definition_formatter import WordData, change_sub_def_cnt
 
 from aqt import mw
 config = mw.addonManager.getConfig(__name__)
@@ -28,6 +28,8 @@ config = mw.addonManager.getConfig(__name__)
 # Variables (can be edited on Addons -> Config)
 dicSrcFields = config['dicSrcFields']
 defFields = config['defFields']
+
+change_sub_def_cnt(config['sub_definition_count'])
 
 expressionField = config['dicSrcFields'][0]  # config['expressionField']
 definitionField = config['defFields'][0]  # config['definitionField']
