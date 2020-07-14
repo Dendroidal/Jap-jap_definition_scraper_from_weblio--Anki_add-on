@@ -77,6 +77,8 @@ class WordDefinition:
             if head.b and '・' in head.b.get_text():
                 end = head.b.get_text().split('・')[-1]
                 self.stem = re.sub(end+'$', '', word)
+            elif '・' not in self.kanji:
+                self.stem = self.kanji
             else:
                 self.stem = word
 
@@ -107,11 +109,11 @@ class WordDefinition:
 
     def find_kanji(self):
         if '【' in self.head.get_text():
-            self.kanji = re.sub('[▼▽（）《》]|・〈.*〉|〈|〉', '',
+            self.kanji = re.sub(r'[▼▽（）《》]|・〈.*〉|〈|〉|[\s ]', '',
                                 re.findall('【(.+)】', self.head.get_text())[0])
         elif self.head.find('span', {'style': 'font-size:75%;'}):
             self.head.find('span', {'style': 'font-size:75%;'}).extract()
-            self.kanji = self.head.get_text().strip()
+            self.kanji = re.sub(r"[\s ]", "", self.head.get_text())
         else:
             'no kanji'
 

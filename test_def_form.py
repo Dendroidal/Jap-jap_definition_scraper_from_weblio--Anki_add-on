@@ -48,7 +48,8 @@ class TestDefinitions(unittest.TestCase):
             for i, _ in enumerate(self.data[w]['definitions']):
                 self.assertEqual(
                     self.data[w]['worddata'].definitions[i].kanji,
-                    self.data[w]['definitions'][i]['kanji']
+                    self.data[w]['definitions'][i]['kanji'],
+                    'Issue with definition {}'.format(i)
                 )
 
     def test_stem(self):
@@ -56,7 +57,8 @@ class TestDefinitions(unittest.TestCase):
             for i, _ in enumerate(self.data[w]['definitions']):
                 self.assertEqual(
                     self.data[w]['worddata'].definitions[i].stem,
-                    self.data[w]['definitions'][i]['stem']
+                    self.data[w]['definitions'][i]['stem'],
+                    'Issue with definition {}'.format(i)
                 )
 
     def test_text(self):
@@ -64,7 +66,8 @@ class TestDefinitions(unittest.TestCase):
             for i, _ in enumerate(self.data[w]['definitions']):
                 self.assertEqual(
                     self.data[w]['worddata'].definitions[i].display_def(),
-                    self.data[w]['definitions'][i]['text']
+                    self.data[w]['definitions'][i]['text'],
+                    'Issue with definition {}'.format(i)
                 )
 
 
