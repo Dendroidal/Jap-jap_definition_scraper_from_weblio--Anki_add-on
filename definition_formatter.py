@@ -176,6 +176,7 @@ class DefinitionLine:
         elif type == 'Midashigo':
             self.marker = ''
             self.raw_text = soup.get_text().split('*SePaRaTeAM*')[-1]
+            self.raw_text = self.raw_text.replace('*SePaRaTe* *SePaRaTe*', '<br>')
         else:
             self.marker = ""
             self.raw_text = soup.find('div').find('div').get_text()
@@ -209,3 +210,17 @@ class DefinitionLine:
             ''.join(sub.display_line(stem) for sub in self.sublines[:sub_def_cnt])
         text = re.sub(r'[、，]', '、', text)
         return text
+
+
+# Code below is auxiliary code used when debugging formatting issues
+
+if __name__ == '__main__':
+    import os
+    import io
+    path = os.path.dirname(__file__)
+    data = WordData('ゲス')
+    data.fetch_def()
+    print(len(data.definitions))
+    print(len(data.definitions[0].sublines))
+    with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
+        f.write(data.definitions[0].sublines[0].raw_text)
