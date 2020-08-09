@@ -39,8 +39,16 @@ class WordData:
         NetDicBodies = self.soup.find_all('div', {'class': "NetDicBody"})
 
         if NetDicHeads and NetDicBodies:
-            self.definitions = [WordDefinition(*pair, self.word, 'NetDic')
-                                for pair in list(zip(NetDicHeads, NetDicBodies))]
+            self.definitions = []
+            for h, b in list(zip(NetDicHeads, NetDicBodies)):
+                pieces = b.find_all(
+                    'div', {'style': re.compile("margin-top:(?:1em)?;margin-bottom:(?:1em)?;text-indent:0;")})
+                if pieces:
+                    for p in pieces:
+                        self.definitions.append(WordDefinition(h, p, self.word, 'NetDic'))
+                else:
+                    self.definitions.append(WordDefinition(h, b, self.word, 'NetDic'))
+
         else:
             midashigos = self.soup.find_all('h2', {'class': "midashigo"})
             Jtnhjs = self.soup.find_all('div', {'class': "Jtnhj"})
@@ -219,9 +227,11 @@ if __name__ == '__main__':
     import os
     import io
     path = os.path.dirname(__file__)
-    data = WordData('参る')
+    data = WordData('口を挟む')
     data.fetch_def()
     print(len(data.definitions))
     print(data.definitions[0].type)
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
-        f.write(data.definitions[0].sublines[0].main_text)
+        f.write(data.definitions[0].display_def()+'\n')
+        f.write(data.definitions[0].stem+'\n')
+        f.write(data.definitions[0].kanji+'\n')
