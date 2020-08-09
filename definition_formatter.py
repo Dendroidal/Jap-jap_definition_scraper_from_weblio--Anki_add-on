@@ -85,6 +85,7 @@ class WordDefinition:
             self.find_lines()
 
         if data_type == 'Midashigo':
+            self.type = 'midashigo'
             self.stem = word
             breakers = self.body.find_all('br')
             for b in breakers:
@@ -221,6 +222,6 @@ if __name__ == '__main__':
     data = WordData('ゲス')
     data.fetch_def()
     print(len(data.definitions))
-    print(len(data.definitions[0].sublines))
+    print(len(data.definitions[0].type))
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
         f.write(data.definitions[0].sublines[0].raw_text)

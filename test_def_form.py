@@ -2,6 +2,7 @@ import os
 import json
 import threading
 import unittest
+import io
 
 from definition_formatter import WordData
 
@@ -11,7 +12,7 @@ class TestDefinitions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         path = os.path.join(os.path.dirname(__file__), "test_def_form.json")
-        with open(path, 'r', encoding="utf-8") as data:
+        with io.open(path, 'r', encoding="utf-8") as data:
             cls.data = json.load(data)
             print(f"Starting the tests. {len(cls.data.keys())} words to be tested.")
             for w in cls.data:
@@ -36,11 +37,12 @@ class TestDefinitions(unittest.TestCase):
                 )
 
     def test_type(self):
-        for w in self.data:
+        for j, w in enumerate(self.data):
             for i, _ in enumerate(self.data[w]['definitions']):
                 self.assertEqual(
                     self.data[w]['worddata'].definitions[i].type,
-                    self.data[w]['definitions'][i]['type']
+                    self.data[w]['definitions'][i]['type'],
+                    'Issue with definition {} of word {}'.format(i, j)
                 )
 
     def test_kanji(self):
