@@ -139,7 +139,7 @@ class WordDefinition:
             self.sublines.append(DefinitionLine(self.body, self.type))
 
     def display_def(self):
-        return ('{}[{}]'.format(self.kanji, self.yomikata) +
+        return (f'{self.kanji}{f"[{self.yomikata}]" if self.yomikata else ""}' +
                 ''.join(l.display_line(self.stem)
                         for l in self.sublines[:sub_def_cnt]).strip()
                 ).replace(' ', '')
@@ -219,9 +219,8 @@ if __name__ == '__main__':
     import os
     import io
     path = os.path.dirname(__file__)
-    data = WordData('ゲス')
+    data = WordData('高みの見物')
     data.fetch_def()
     print(len(data.definitions))
-    print(len(data.definitions[0].type))
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
-        f.write(data.definitions[0].sublines[0].raw_text)
+        f.write(data.definitions[0].sublines[0].main_text)

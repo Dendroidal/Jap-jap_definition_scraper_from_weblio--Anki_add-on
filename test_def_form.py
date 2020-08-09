@@ -37,12 +37,13 @@ class TestDefinitions(unittest.TestCase):
                 )
 
     def test_type(self):
-        for j, w in enumerate(self.data):
+        for w in self.data:
             for i, _ in enumerate(self.data[w]['definitions']):
                 self.assertEqual(
                     self.data[w]['worddata'].definitions[i].type,
                     self.data[w]['definitions'][i]['type'],
-                    'Issue with definition {} of word {}'.format(i, j)
+                    'Issue with definition {} of word "{}"'.format(
+                        i, self.data[w]['romaji'])
                 )
 
     def test_kanji(self):
@@ -69,7 +70,8 @@ class TestDefinitions(unittest.TestCase):
                 self.assertEqual(
                     self.data[w]['worddata'].definitions[i].display_def(),
                     self.data[w]['definitions'][i]['text'],
-                    'Issue with definition {}'.format(i)
+                    'Issue with definition {} of word "{}"'.format(
+                        i, self.data[w]['romaji'])
                 )
 
 
