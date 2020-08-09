@@ -1,6 +1,7 @@
 {
     "地平":{
         "word": "地平",
+        "romaji": "chihei",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -13,6 +14,7 @@
     },
     "承知":{
         "word": "承知",
+        "romaji": "shouchi",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -25,6 +27,7 @@
     },
     "創る":{
         "word": "創る",
+        "romaji": "tsukuru",
         "definitions": [
             {
                 "type": "midashigo",
@@ -37,6 +40,7 @@
     },
     "知覚":{
         "word": "知覚",
+        "romaji": "chikaku",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -49,6 +53,7 @@
     },
     "潰える":{
         "word": "潰える",
+        "romaji": "tsuieru",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -68,6 +73,7 @@
     },
     "要":{
         "word": "要",
+        "romaji": "kaname",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -101,6 +107,7 @@
     },
     "幻":{
         "word": "幻",
+        "romaji": "maboroshi",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -113,6 +120,7 @@
     },
     "側面":{
         "word": "側面",
+        "romaji": "sokumen",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -125,6 +133,7 @@
     },
     "伊達":{
         "word": "伊達",
+        "romaji": "date",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -151,6 +160,7 @@
     },
     "指示":{
         "word": "指示",
+        "romaji": "shiji",
         "definitions": [
             {
                 "type": "misc",
@@ -170,6 +180,7 @@
     },
     "矛盾":{
         "word": "矛盾",
+        "romaji": "mujun",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -182,6 +193,7 @@
     },
     "食べる":{
         "word": "食べる",
+        "romaji": "taberu",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -194,6 +206,7 @@
     },
     "肩入れ":{
         "word": "肩入れ",
+        "romaji": "kataire",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -206,6 +219,7 @@
     },
     "立つ":{
         "word": "立つ",
+        "romaji": "tatsu",
         "definitions": [
             {
                 "type": "misc",
@@ -225,6 +239,7 @@
     },
     "長い":{
         "word": "長い",
+        "romaji": "nagai",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -237,6 +252,7 @@
     },
     "読む":{
         "word": "読む",
+        "romaji": "yomu",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -249,6 +265,7 @@
     },
     "取る":{
         "word": "取る",
+        "romaji": "toru",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -261,6 +278,7 @@
     },
     "援護":{
         "word": "援護",
+        "romaji": "engo",
         "definitions": [
             {
                 "type": "div_text-indent:0;",
@@ -280,6 +298,7 @@
     },
     "読み方":{
         "word": "読み方",
+        "romaji": "yomikata",
         "definitions": [
             {
                 "type": "div_margin-left:1.2em;",
@@ -292,6 +311,7 @@
     },
     "いずこ":{
         "word": "いずこ",
+        "romaji": "izuko",
         "definitions": [
             {
                 "type": "misc",
@@ -332,6 +352,7 @@
     },
     "明け渡す":{
         "word": "明け渡す",
+        "romaji": "akewatasu",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -344,6 +365,7 @@
     },
     "至高":{
         "word": "至高",
+        "romaji": "shikou",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -356,6 +378,7 @@
     },
     "悲惨":{
         "word": "悲惨",
+        "romaji": "hisan",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -368,6 +391,7 @@
     },
     "荒れ果てる":{
         "word": "荒れ果てる",
+        "romaji": "arihateru",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -380,6 +404,7 @@
     },
     "遠大":{
         "word": "遠大",
+        "romaji": "endai",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -392,6 +417,7 @@
     },
     "残存":{
         "word": "残存",
+        "romaji": "zanson",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -404,6 +430,7 @@
     },
     "退避":{
         "word": "退避",
+        "romaji": "taihi",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -416,6 +443,7 @@
     },
     "索敵":{
         "word": "索敵",
+        "romaji": "sakuteki",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -428,6 +456,7 @@
     },
     "撤退":{
         "word": "撤退",
+        "romaji": "tettai",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -440,6 +469,7 @@
     },
     "掃討":{
         "word": "掃討",
+        "romaji": "soutou",
         "definitions": [
             {
                 "type": "span_font-size:75%;",
@@ -452,18 +482,20 @@
     },
     "棚から牡丹餅":{
         "word": "棚から牡丹餅",
+        "romaji": "tanakarabotamochi",
         "definitions": [
             {
                 "type": "misc",
                 "yomikata": "",
                 "stem": "棚から牡丹餅",
                 "kanji": "棚から牡丹餅",
-                "text": "棚から牡丹餅[]：　労せずして思いがけない幸運に巡り合うことのたとえ。たなぼた。<br>"
+                "text": "棚から牡丹餅：　労せずして思いがけない幸運に巡り合うことのたとえ。たなぼた。<br>"
             }
         ]
     },
     "海原":{
         "word": "海原",
+        "romaji": "unabara",
         "definitions": [
             {
                 "type": "misc",
@@ -476,6 +508,7 @@
     },
     "刷り込む":{
         "word": "刷り込む",
+        "romaji": "surikomu",
         "definitions": [
             {
                 "type": "misc",
@@ -488,6 +521,7 @@
     },
     "生っちょろい":{
         "word": "生っちょろい",
+        "romaji": "namacchoroi",
         "definitions": [
             {
                 "type": "misc",
@@ -500,6 +534,7 @@
     },
     "現状":{
         "word": "現状",
+        "romaji": "genjou",
         "definitions": [
             {
                 "type": "misc",
@@ -512,6 +547,7 @@
     },
     "被害":{
         "word": "被害",
+        "romaji": "higai",
         "definitions": [
             {
                 "type": "misc",
@@ -524,6 +560,7 @@
     },
     "成し得る":{
         "word": "成し得る",
+        "romaji": "nashieru",
         "definitions": [
             {
                 "type": "midashigo",
@@ -536,6 +573,7 @@
     },
     "籍を置く":{
         "word": "籍を置く",
+        "romaji": "sekiwooku",
         "definitions": [
             {
                 "type": "midashigo",
@@ -548,13 +586,27 @@
     },
     "ゲス":{
         "word": "ゲス",
+        "romaji": "gesu",
         "definitions": [
             {
                 "type": "midashigo",
                 "yomikata": "",
                 "stem": "ゲス",
                 "kanji": "ゲス",
-                "text": "ゲス[]：　下劣な性格の、いやらしい人、といった意味合いで用いられることの多い表現。<br>基本的には、身分の低い者や、品性の下劣な者、つまり「卑しい者」という意味合いがある。漢字では「下種」「下衆」のように表記するが、今日ではカタカナで「ゲス」と表記される場合が多い。<br>化粧箱などの包装の用語では、箱内に嵌め込んで用いる、主に内容物の固定、緩衝材、および装飾などの役割を果たす内装を俗にゲスという。「中ゲス」とも、あるいは「中仕切り」と呼ばれることもある。分包された菓子を整然と並んだ状態に保ったり、運搬中に転がって破損するような事態を防いだり、開封時に内容物を引き立たせる装飾の役割を担ったりする。<br>箱の中仕切りの呼び名をなぜゲスと呼ぶのか、その語源や由来は詳らかでない。普通「げす」といえば、が、この意味のゲスとは語義上の脈絡が見出しがたい。<br>"
+                "text": "ゲス：　下劣な性格の、いやらしい人、といった意味合いで用いられることの多い表現。<br>基本的には、身分の低い者や、品性の下劣な者、つまり「卑しい者」という意味合いがある。漢字では「下種」「下衆」のように表記するが、今日ではカタカナで「ゲス」と表記される場合が多い。<br>化粧箱などの包装の用語では、箱内に嵌め込んで用いる、主に内容物の固定、緩衝材、および装飾などの役割を果たす内装を俗にゲスという。「中ゲス」とも、あるいは「中仕切り」と呼ばれることもある。分包された菓子を整然と並んだ状態に保ったり、運搬中に転がって破損するような事態を防いだり、開封時に内容物を引き立たせる装飾の役割を担ったりする。<br>箱の中仕切りの呼び名をなぜゲスと呼ぶのか、その語源や由来は詳らかでない。普通「げす」といえば、が、この意味のゲスとは語義上の脈絡が見出しがたい。<br>"
+            }
+        ]
+    },
+    "高みの見物":{
+        "word": "高みの見物",
+        "romaji": "takaminokenbutsu",
+        "definitions": [
+            {
+                "type": "misc",
+                "yomikata": "",
+                "stem": "高みの見物",
+                "kanji": "高みの見物",
+                "text": "高みの見物：　第三者として局外にいて、事のなりゆきを傍観すること。「高みの見物をきめこむ」<br>"
             }
         ]
     }
