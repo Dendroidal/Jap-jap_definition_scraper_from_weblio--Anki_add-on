@@ -104,7 +104,7 @@ class WordDefinition:
                 else:
                     b.insert_after(div)
 
-            yomikata = re.findall('読み方：\s*(.*?)\*SePaRaTe', self.body.get_text())
+            yomikata = re.findall(r'読み方：\s*(.*?)\*SePaRaTe', self.body.get_text())
             self.yomikata = yomikata[0] if yomikata else ''
             self.sublines = [DefinitionLine(self.body, 'Midashigo')]
 
@@ -125,6 +125,8 @@ class WordDefinition:
             self.kanji = re.sub(r"[\s ]", "", self.head.get_text())
         else:
             'no kanji'
+        kana = 'あかさたなはまやらわんいきしちにひみりうくすつぬふむゆるえけせてねへめれおこそとのほもよろを'
+        self.kanji = re.sub(re.compile(f'・(?=[{kana}])'), '', self.kanji)
 
     def find_lines(self):
         self.sublines = []
@@ -232,6 +234,4 @@ if __name__ == '__main__':
     print(len(data.definitions))
     print(data.definitions[0].type)
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
-        f.write(data.definitions[0].display_def()+'\n')
-        f.write(data.definitions[0].stem+'\n')
-        f.write(data.definitions[0].kanji+'\n')
+        f.write(data.definitions[0].display_def())
