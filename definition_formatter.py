@@ -10,6 +10,7 @@ import urllib.parse
 import urllib.error
 import re
 
+
 # sets the default number of subdefinitions displayed
 sub_def_cnt = 3
 
@@ -115,6 +116,10 @@ class WordDefinition:
                 r'[・\s]', '', self.head.b.get_text())
         else:
             self.yomikata = ''
+        kana = 'あかがさざただなはばぱまやらわんいきぎしじちぢにひびぴみり' +\
+            'うくぐすずつづぬふぶぷむゆるえけげせぜてでねへべぺめれおこごそぞとどのほぼぽもよろをぁぇぉぃぅゃょゅっ'
+        if not re.match(re.compile(f'[{kana}]+$'), self.yomikata):
+            self.yomikata = ''
 
     def find_kanji(self):
         if '【' in self.head.get_text():
@@ -125,7 +130,8 @@ class WordDefinition:
             self.kanji = re.sub(r"[\s ]", "", self.head.get_text())
         else:
             'no kanji'
-        kana = 'あかさたなはまやらわんいきしちにひみりうくすつぬふむゆるえけせてねへめれおこそとのほもよろを'
+        kana = 'あかがさざただなはばぱまやらわんいきぎしじちぢにひびぴみり' +\
+            'うくぐすずつづぬふぶぷむゆるえけげせぜてでねへべぺめれおこごそぞとどのほぼぽもよろをぁぇぉぃぅゃょゅっ'
         self.kanji = re.sub(re.compile(f'・(?=[{kana}])'), '', self.kanji)
 
     def find_lines(self):
@@ -229,7 +235,7 @@ if __name__ == '__main__':
     import os
     import io
     path = os.path.dirname(__file__)
-    data = WordData('口を挟む')
+    data = WordData('棒に振る')
     data.fetch_def()
     print(len(data.definitions))
     print(data.definitions[0].type)

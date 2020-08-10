@@ -33,7 +33,9 @@ class TestDefinitions(unittest.TestCase):
             for i, _ in enumerate(self.data[w]['definitions']):
                 self.assertEqual(
                     self.data[w]['worddata'].definitions[i].yomikata,
-                    self.data[w]['definitions'][i]['yomikata']
+                    self.data[w]['definitions'][i]['yomikata'],
+                    'Issue with definition {} of word "{}"'.format(
+                        i, self.data[w]['romaji'])
                 )
 
     def test_type(self):
