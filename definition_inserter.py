@@ -12,7 +12,9 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+
 from anki.hooks import addHook
+from anki.utils import stripHTML
 
 import threading
 import traceback
@@ -46,7 +48,7 @@ label_menu = 'Regenerate definitions'
 ##########################################################################
 
 def note_def_fetch(note, srcfld):
-    words = note[srcfld].split("、")
+    words = stripHTML(note[srcfld]).split("、")
 
     word_info = {}
 
