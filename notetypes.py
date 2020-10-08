@@ -16,3 +16,11 @@ def isJapaneseNoteType(noteName):
             return True
 
     return False
+
+
+def isChineseNoteType(noteName):
+    noteName = noteName.lower()
+    if 'chinese' in noteName:
+        return True
+
+    return False

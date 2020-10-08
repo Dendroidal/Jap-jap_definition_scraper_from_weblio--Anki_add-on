@@ -53,9 +53,15 @@ class WordData:
         else:
             midashigos = self.soup.find_all('h2', {'class': "midashigo"})
             Jtnhjs = self.soup.find_all('div', {'class': "Jtnhj"})
+            Nhgkts = self.soup.find_all('div', {'class': "Nhgkt"})
+            for p in self.soup.find_all('p', {'class': re.compile("^nhgkt[LR]$")}):
+                p.extract()
             if midashigos and Jtnhjs:
                 self.definitions = [WordDefinition(*pair, self.word, 'Midashigo')
                                     for pair in list(zip(midashigos, Jtnhjs))]
+            elif midashigos and Nhgkts:
+                self.definitions = [WordDefinition(*pair, self.word, 'Midashigo')
+                                    for pair in list(zip(midashigos, Nhgkts))]
 
 
 class WordDefinition:
@@ -158,7 +164,7 @@ class WordDefinition:
         return (f'{self.kanji}{f"[{self.yomikata}]" if self.yomikata else ""}' +
                 ''.join(l.display_line(self.stem)
                         for l in self.sublines[:sub_def_cnt]).strip()
-                ).replace(' ', '')
+                ).replace(' ', '').replace('*SePaRaTe*', '')
 
 
 class DefinitionLine:
@@ -229,15 +235,50 @@ class DefinitionLine:
         return text
 
 
+# Extra code for barebones support for Chinese weblio
+# (note: this feature is quite basic and "not official",
+# and will receive no further support.)
+
+
+class ChineseWordData:
+    def __init__(self, word):
+        self.word = word
+        self.url = ("https://cjjc.weblio.jp/content/"
+                    + urllib.parse.quote(word.encode('utf-8')))
+
+    def fetch_def(self):
+        self.definitions = []
+        self.source = urllib.request.urlopen(self.url)
+        self.soup = BeautifulSoup(self.source, features="html.parser")
+
+        Midashigos = self.soup.find_all('h2', {'class': "midashigo"})
+        Cgkgj = self.soup.find_all('div', {'class': "Cgkgj"})
+
+        self.definitions = []
+        for h, b in list(zip(Midashigos, Cgkgj)):
+            self.definitions.append(ChineseWordDefinition(h, b, self.word))
+
+
+class ChineseWordDefinition:
+    def __init__(self, head, body, word):
+        self.word = word
+        self.body = body
+
+    def display_def(self):
+        pieces = self.body.find_all('div', {'class': 'level0'})
+        if pieces:
+            return self.word + '<br>' + '<br>'.join(p.get_text() for p in pieces)
+        return 'KATTY KAT'
+
+
 # Code below is auxiliary code used when debugging formatting issues
 
 if __name__ == '__main__':
     import os
     import io
     path = os.path.dirname(__file__)
-    data = WordData('棒に振る')
+    data = ChineseWordData('什么')
     data.fetch_def()
     print(len(data.definitions))
-    print(data.definitions[0].type)
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
         f.write(data.definitions[0].display_def())

@@ -21,8 +21,8 @@ import traceback
 
 #####
 
-from .notetypes import isJapaneseNoteType
-from .definition_formatter import WordData, change_sub_def_cnt
+from .notetypes import isJapaneseNoteType, isChineseNoteType
+from .definition_formatter import WordData, change_sub_def_cnt, ChineseWordData
 
 from aqt import mw
 config = mw.addonManager.getConfig(__name__)
@@ -54,7 +54,10 @@ def note_def_fetch(note, srcfld):
 
     for word in words:
         word_info[word] = {}
-        word_info[word]['data'] = WordData(word)
+        if not isChineseNoteType(note.model()['name']):
+            word_info[word]['data'] = WordData(word)
+        else:
+            word_info[word]['data'] = ChineseWordData(word)
         word_info[word]['thread'] = \
             threading.Thread(target=word_info[word]['data'].fetch_def)
         word_info[word]['thread'].start()
