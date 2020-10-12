@@ -277,8 +277,9 @@ if __name__ == '__main__':
     import os
     import io
     path = os.path.dirname(__file__)
-    data = ChineseWordData('什么')
+    data = WordData('調教')
     data.fetch_def()
     print(len(data.definitions))
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
-        f.write(data.definitions[0].display_def())
+        f.write(data.soup.text)
+        # f.write(data.definitions[0].display_def())
