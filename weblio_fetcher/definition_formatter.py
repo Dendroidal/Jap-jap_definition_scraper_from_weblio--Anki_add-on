@@ -76,15 +76,10 @@ class DefinitionLine:
     def __init__(self, soup):
         self.sublines = []
         self.raw_text = soup.text  # .get_text()
-        self.marker = ''
-        num = re.findall(r'^\d+', self.raw_text)
-        if num and 0 < int(num[0]) < 10:
-            self.marker = ' ①②③④⑤⑥⑦⑧⑨'[int(num[0])]
-
-        self.main_text = re.sub(r'^\d+', '', self.raw_text)
+        self.main_text = self.raw_text
 
     def display_line(self):
-        text = '　' + self.marker + '：　' + \
+        text = '　' + '：　' + \
             self.main_text + \
             '<br>' + \
             ''.join(sub.display_line() for sub in self.sublines[:sub_def_cnt])

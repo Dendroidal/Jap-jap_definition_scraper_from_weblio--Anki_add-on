@@ -1,0 +1,9 @@
+{
+    "noteTypes": ["Japanese"],
+    "dicSrcFields": ["Words"],
+    "defFields": ["Meaning"],
+    "sub_definition_count": 3,
+    "max_threads": 15,
+    "force_update": "append",
+    "update_separator": "<br>"
+}
