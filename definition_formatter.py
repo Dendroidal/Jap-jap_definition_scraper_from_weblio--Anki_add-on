@@ -134,6 +134,7 @@ if __name__ == '__main__':
     import os
     import io
     path = os.path.dirname(__file__)
+
     data = WordData('読み方')
     data.fetch_def()
     print(len(data.definitions))
@@ -143,3 +144,4 @@ if __name__ == '__main__':
         f.write(data.definitions[0].kanji + '\n')
 
         f.write(data.definitions[0].display_def())
+
