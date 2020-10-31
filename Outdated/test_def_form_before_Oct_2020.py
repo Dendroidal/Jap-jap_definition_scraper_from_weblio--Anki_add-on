@@ -38,6 +38,16 @@ class TestDefinitions(unittest.TestCase):
                         i, self.data[w]['romaji'])
                 )
 
+    def test_type(self):
+        for w in self.data:
+            for i, _ in enumerate(self.data[w]['definitions']):
+                self.assertEqual(
+                    self.data[w]['worddata'].definitions[i].type,
+                    self.data[w]['definitions'][i]['type'],
+                    'Issue with definition {} of word "{}"'.format(
+                        i, self.data[w]['romaji'])
+                )
+
     def test_kanji(self):
         for w in self.data:
             for i, _ in enumerate(self.data[w]['definitions']):
@@ -47,7 +57,6 @@ class TestDefinitions(unittest.TestCase):
                     'Issue with definition {}'.format(i)
                 )
 
-    '''
     def test_stem(self):
         for w in self.data:
             for i, _ in enumerate(self.data[w]['definitions']):
@@ -56,7 +65,6 @@ class TestDefinitions(unittest.TestCase):
                     self.data[w]['definitions'][i]['stem'],
                     'Issue with definition {}'.format(i)
                 )
-    '''
 
     def test_text(self):
         for w in self.data:

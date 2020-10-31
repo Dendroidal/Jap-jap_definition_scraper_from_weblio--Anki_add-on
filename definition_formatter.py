@@ -55,7 +55,7 @@ class WordDefinition:
     def find_kanji_yomikata(self):
         prekanji = re.findall(r"【(.*)】", self.head.get_text())
         if prekanji:
-            self.kanji = re.sub(r"（）", "", prekanji[0])
+            self.kanji = re.sub(r"[（）×]", "", prekanji[0])
         preyomikata = re.match(r"[^〔〕【】]*", self.head.get_text())
         if preyomikata:
             self.yomikata = re.sub(r"‐", "", preyomikata[0])
@@ -67,7 +67,8 @@ class WordDefinition:
     def display_def(self):
         return (f'{self.kanji}{f"[{self.yomikata}]" if self.yomikata else ""}' +
                 ''.join(l.display_line()
-                        for l in self.sublines[:sub_def_cnt]).strip()
+                        for l in self.sublines[:sub_def_cnt] if l.display_line()
+                        ).strip()
                 ).replace(' ', '')
 
 
@@ -75,7 +76,8 @@ class DefinitionLine:
 
     def __init__(self, soup):
         self.sublines = []
-        self.raw_text = soup.text  # .get_text()
+        self.raw_text = soup.text
+        self.raw_text = re.sub(r'^［名］\(スル\)', '', self.raw_text)
         self.marker = ''
         num = re.findall(r'^\d+', self.raw_text)
         if num and 0 < int(num[0]) < 10:
@@ -84,11 +86,12 @@ class DefinitionLine:
         self.main_text = re.sub(r'^\d+', '', self.raw_text)
 
     def display_line(self):
+        if not self.main_text:
+            return ''
         text = '　' + self.marker + '：　' + \
             self.main_text + \
             '<br>' + \
             ''.join(sub.display_line() for sub in self.sublines[:sub_def_cnt])
-        #text = re.sub(r'[、，]', '、', text)
         return text
 
 
@@ -134,12 +137,10 @@ if __name__ == '__main__':
     import os
     import io
     path = os.path.dirname(__file__)
-    data = WordData('読み方')
+    data = WordData('飛沫')
     data.fetch_def()
     print(len(data.definitions))
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
-        f.write(data.definitions[0].head.get_text() + '\n')
         f.write(data.definitions[0].yomikata + '\n')
         f.write(data.definitions[0].kanji + '\n')
-
         f.write(data.definitions[0].display_def())
