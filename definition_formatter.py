@@ -48,6 +48,7 @@ class WordDefinition:
         self.body = kiji.find('div', {'class': 'Sgkdj'})
         self.word = word
         self.kanji = word
+        self.stem = word
 
         self.find_kanji_yomikata()
         self.find_lines()
@@ -56,13 +57,18 @@ class WordDefinition:
         prekanji = re.findall(r"【(.*)】", self.head.get_text())
         if prekanji:
             self.kanji = re.sub(r"[（）×]", "", prekanji[0])
+            self.kanji = re.sub(r"／", "・", self.kanji)
         preyomikata = re.match(r"[^〔〕【】]*", self.head.get_text())
         if preyomikata:
             self.yomikata = re.sub(r"‐", "", preyomikata[0])
+            if '・' in self.yomikata:
+                suff = self.yomikata.split('・')[-1]
+                self.yomikata = re.sub(r'・', '', self.yomikata)
+                self.stem = re.sub(suff+'$', '', self.kanji)
 
     def find_lines(self):
         pieces = self.body.find_all('p', {})
-        self.sublines = [DefinitionLine(piece) for piece in pieces]
+        self.sublines = [DefinitionLine(piece, self.stem) for piece in pieces]
 
     def display_def(self):
         return (f'{self.kanji}{f"[{self.yomikata}]" if self.yomikata else ""}' +
@@ -74,16 +80,23 @@ class WordDefinition:
 
 class DefinitionLine:
 
-    def __init__(self, soup):
+    def __init__(self, soup, stem):
         self.sublines = []
         self.raw_text = soup.text
         self.raw_text = re.sub(r'^［名］\(スル\)', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動ラ下一］.*［ラ下二］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動サ変］.*［サ変］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動ラ五（四）］', '', self.raw_text)
         self.marker = ''
         num = re.findall(r'^\d+', self.raw_text)
         if num and 0 < int(num[0]) < 10:
             self.marker = ' ①②③④⑤⑥⑦⑧⑨'[int(num[0])]
 
         self.main_text = re.sub(r'^\d+', '', self.raw_text)
+
+        self.main_text = re.sub(r'「.*?―・?.*?」',
+                                lambda ex: re.sub(r'―・?', stem, ex.group(0)),
+                                self.main_text)
 
     def display_line(self):
         if not self.main_text:
@@ -138,10 +151,11 @@ if __name__ == '__main__':
     import io
     path = os.path.dirname(__file__)
 
-    data = WordData('読み方')
+    data = WordData('手間取る')
     data.fetch_def()
     print(len(data.definitions))
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
         f.write(data.definitions[0].yomikata + '\n')
         f.write(data.definitions[0].kanji + '\n')
+        f.write(data.definitions[0].stem + '\n')
         f.write(data.definitions[0].display_def())

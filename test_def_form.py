@@ -47,7 +47,6 @@ class TestDefinitions(unittest.TestCase):
                     'Issue with definition {}'.format(i)
                 )
 
-    '''
     def test_stem(self):
         for w in self.data:
             for i, _ in enumerate(self.data[w]['definitions']):
@@ -56,7 +55,6 @@ class TestDefinitions(unittest.TestCase):
                     self.data[w]['definitions'][i]['stem'],
                     'Issue with definition {}'.format(i)
                 )
-    '''
 
     def test_text(self):
         for w in self.data:
