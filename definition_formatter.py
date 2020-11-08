@@ -38,14 +38,15 @@ class WordData:
         kijis = self.soup.find_all('div', {'class': "kiji"})
 
         for kiji in kijis:
-            if kiji.find('div', {'class': "Sgkdj"}):
-                self.definitions.append(WordDefinition(kiji, self.word))
+            for head, body in zip(kiji.find_all('h2', {'class': 'midashigo'}),
+                                  kiji.find_all('div', {'class': "Sgkdj"})):
+                self.definitions.append(WordDefinition(head, body, self.word))
 
 
 class WordDefinition:
-    def __init__(self, kiji, word):
-        self.head = kiji.find('h2', {'class': 'midashigo'})
-        self.body = kiji.find('div', {'class': 'Sgkdj'})
+    def __init__(self, head, body, word):
+        self.head = head  # kiji.find('h2', {'class': 'midashigo'})
+        self.body = body  # kiji.find('div', {'class': 'Sgkdj'})
         self.word = word
         self.kanji = word
         self.stem = word
@@ -64,7 +65,7 @@ class WordDefinition:
             if '・' in self.yomikata:
                 suff = self.yomikata.split('・')[-1]
                 self.yomikata = re.sub(r'・', '', self.yomikata)
-                self.stem = re.sub(suff+'$', '', self.kanji)
+                self.stem = re.sub(suff+'$', '', self.kanji.split('・')[0])
 
     def find_lines(self):
         pieces = self.body.find_all('p', {})
@@ -72,8 +73,8 @@ class WordDefinition:
 
     def display_def(self):
         return (f'{self.kanji}{f"[{self.yomikata}]" if self.yomikata else ""}' +
-                ''.join(l.display_line()
-                        for l in self.sublines[:sub_def_cnt] if l.display_line()
+                ''.join([l.display_line()
+                         for l in self.sublines if l.display_line()][:sub_def_cnt]
                         ).strip()
                 ).replace(' ', '')
 
@@ -84,22 +85,37 @@ class DefinitionLine:
         self.sublines = []
         self.raw_text = soup.text
         self.raw_text = re.sub(r'^［名］\(スル\)', '', self.raw_text)
-        self.raw_text = re.sub(r'^［動ラ下一］.*［ラ下二］', '', self.raw_text)
-        self.raw_text = re.sub(r'^［動サ変］.*［サ変］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［名・形動］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動ラ下一］.*?［ラ下二］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動サ変］.*?［サ変］', '', self.raw_text)
         self.raw_text = re.sub(r'^［動ラ五（四）］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動カ上一］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動ラ上一］.*?［ラ上二］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動ア下一］.*?［ヤ下二］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［動サ五（四）］', '', self.raw_text)
+        self.raw_text = re.sub(r'^［名］', '', self.raw_text)
+
+        self.raw_text = re.sub(r'^《古くは「.*?」》', '', self.raw_text)
+        self.raw_text = re.sub(r'^《「.*?」と同語源》', '', self.raw_text)
+
+        self.raw_text = re.sub(r'→\w*', '', self.raw_text)
+
         self.marker = ''
         num = re.findall(r'^\d+', self.raw_text)
         if num and 0 < int(num[0]) < 10:
             self.marker = ' ①②③④⑤⑥⑦⑧⑨'[int(num[0])]
+        elif re.findall(r'^[㋐㋑㋒㋓㋔]', self.raw_text):
+            self.marker = '　' + re.findall(r'^[㋐㋑㋒㋓㋔]', self.raw_text)[0]
 
         self.main_text = re.sub(r'^\d+', '', self.raw_text)
+        self.main_text = re.sub(r'^[㋐㋑㋒㋓㋔]', '', self.main_text)
 
         self.main_text = re.sub(r'「.*?―・?.*?」',
                                 lambda ex: re.sub(r'―・?', stem, ex.group(0)),
                                 self.main_text)
 
     def display_line(self):
-        if not self.main_text:
+        if not self.main_text and not self.marker:
             return ''
         text = '　' + self.marker + '：　' + \
             self.main_text + \
@@ -151,11 +167,15 @@ if __name__ == '__main__':
     import io
     path = os.path.dirname(__file__)
 
-    data = WordData('手間取る')
+    data = WordData('頭痛')
     data.fetch_def()
     print(len(data.definitions))
     with io.open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8') as f:
         f.write(data.definitions[0].yomikata + '\n')
         f.write(data.definitions[0].kanji + '\n')
         f.write(data.definitions[0].stem + '\n')
-        f.write(data.definitions[0].display_def())
+        f.write(data.definitions[0].display_def() + '\n')
+        f.write(data.definitions[1].yomikata + '\n')
+        f.write(data.definitions[1].kanji + '\n')
+        f.write(data.definitions[1].stem + '\n')
+        f.write(data.definitions[1].display_def() + '\n')
